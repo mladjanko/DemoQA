@@ -1,5 +1,5 @@
 # DemoQA
-# https://demoqa.com/
+## https://demoqa.com/
 ## DemoQA is a website that provides free resources for learning various software testing tools, test automation frameworks, and QA methodologies.
 ## This is my test automation demo project written in Java and it's still under the development.
 
@@ -43,3 +43,5 @@ Files:
 * Test methods are kept clean
 * Each test should have at least 2 assertions with few test exceptions
 * Priorities are set with 10 increment, if higher priority occur later in testing, priority of such tests are placed between the two priorities
+
+# To be continued!
