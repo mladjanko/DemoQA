@@ -9,7 +9,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.CHECK_BOX_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class CheckBoxTest extends BaseTest {
 
@@ -19,9 +20,13 @@ public class CheckBoxTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         checkBoxPage = new CheckBoxPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 2, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, CHECK_BOX_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test

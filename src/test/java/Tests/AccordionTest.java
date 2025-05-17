@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 import static Helpers.HomepageCards.WIDGETS;
-import static Helpers.URLs.ACCORDIONPAGEURL;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.ACCORDION_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class AccordionTest extends BaseTest {
 
@@ -23,9 +23,13 @@ public class AccordionTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         accordionPage = new AccordionPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(WIDGETS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 19, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, ACCORDION_PAGE_URL), "Tested page is not reached!");
     }
 
     private void testAllAccordionButtonsToggle(List<WebElement> cardHeaderList, List<WebElement> cardBodyList) {
@@ -42,9 +46,6 @@ public class AccordionTest extends BaseTest {
 
     @Test
     public void testAccordionCardsCanToggle() {
-        String currentURL = driver.getCurrentUrl();
-        assert currentURL != null;
-        Assert.assertTrue(testedPageIsReached(currentURL, ACCORDIONPAGEURL), "Tested page is not reached!");
         List<WebElement> cardHeaderList = accordionPage.cardHeaderList;
         List<WebElement> cardBodyList = accordionPage.cardBodyList;
         accordionPage.hideAllAccordionContent();

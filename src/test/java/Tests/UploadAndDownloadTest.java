@@ -13,7 +13,8 @@ import java.io.File;
 import java.nio.file.Paths;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.UPLOAD_AND_DOWNLOAD_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class UploadAndDownloadTest extends BaseTest {
 
@@ -23,9 +24,13 @@ public class UploadAndDownloadTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         uploadAndDownloadPage = new UploadAndDownloadPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 8, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, UPLOAD_AND_DOWNLOAD_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)

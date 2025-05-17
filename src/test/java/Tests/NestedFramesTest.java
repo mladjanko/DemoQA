@@ -8,7 +8,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ALERTS_FRAME_WINDOWS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.NESTED_FRAMES_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class NestedFramesTest extends BaseTest {
 
@@ -20,9 +21,13 @@ public class NestedFramesTest extends BaseTest {
         parentIframePage = new ParentIframePage();
         childIframePage = new ChildIframePage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ALERTS_FRAME_WINDOWS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 16, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, NESTED_FRAMES_URL), "Tested page is not reached!");
     }
 
     private void switchToFrame(WebElement iframe) {

@@ -14,7 +14,8 @@ import java.io.File;
 import java.util.List;
 
 import static Helpers.HomepageCards.FORMS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.HOME_PAGE_URL;
+import static Helpers.URLs.PRACTICE_FORM_PAGE;
 
 public class PracticeFormTest extends BaseTest {
 
@@ -25,9 +26,13 @@ public class PracticeFormTest extends BaseTest {
         practiceFormPage = new PracticeFormPage();
         practiceFormModalPage = new PracticeFormModalPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(FORMS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 11, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, PRACTICE_FORM_PAGE), "Tested page is not reached!");
     }
 
     private void fillOutPracticeForm(String firstName, String lastName, String userEmail, String gender, String mobileNumber,

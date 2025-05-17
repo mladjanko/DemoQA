@@ -9,7 +9,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.RADIO_BUTTON_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class RadioButtonTest extends BaseTest {
 
@@ -19,9 +20,13 @@ public class RadioButtonTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         radioButtonPage = new RadioButtonPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 3, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, RADIO_BUTTON_PAGE_URL), "Tested page is not reached!");
     }
 
     private void selectRadioButton(String radioButtonName) {

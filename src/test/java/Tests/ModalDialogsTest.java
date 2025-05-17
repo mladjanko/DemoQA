@@ -8,7 +8,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ALERTS_FRAME_WINDOWS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.MODAL_DIALOGS_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class ModalDialogsTest extends BaseTest {
 
@@ -20,9 +21,13 @@ public class ModalDialogsTest extends BaseTest {
         smallModalPage = new SmallModalPage();
         largeModalPage = new LargeModalPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ALERTS_FRAME_WINDOWS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 17, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, MODAL_DIALOGS_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)

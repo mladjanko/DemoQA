@@ -10,7 +10,8 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 import static Helpers.HomepageCards.ALERTS_FRAME_WINDOWS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.BROWSER_WINDOWS_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class BrowserWindowsTest extends BaseTest {
 
@@ -22,9 +23,13 @@ public class BrowserWindowsTest extends BaseTest {
         newWindowPage = new NewWindowPage();
         newWindowMessagePage = new NewWindowMessagePage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ALERTS_FRAME_WINDOWS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 13, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, BROWSER_WINDOWS_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)

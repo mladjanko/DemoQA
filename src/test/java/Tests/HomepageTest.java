@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.io.IOException;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class HomepageTest extends BaseTest {
 
@@ -15,14 +15,14 @@ public class HomepageTest extends BaseTest {
     public void pageSetUp() throws IOException {
         homepagePage = new HomepagePage();
         excelReader = new ExcelReader("DemoQATestData.xlsx");
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
     }
 
     @Test
     public void testIfHomepageIsReached() {
         String currentUrl = driver.getCurrentUrl();
         int expectedCardsNumber = 6;
-        Assert.assertEquals(currentUrl, HOMEPAGEURL);
+        Assert.assertEquals(currentUrl, HOME_PAGE_URL);
         Assert.assertEquals(homepagePage.cardsList.size(), expectedCardsNumber);
     }
 }

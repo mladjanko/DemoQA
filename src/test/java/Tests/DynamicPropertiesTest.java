@@ -10,7 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.DYNAMIC_PROPERTIES_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class DynamicPropertiesTest extends BaseTest {
 
@@ -20,9 +21,13 @@ public class DynamicPropertiesTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         dynamicPropertiesPage = new DynamicPropertiesPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 9, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, DYNAMIC_PROPERTIES_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)

@@ -12,7 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ALERTS_FRAME_WINDOWS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.ALERTS_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class AlertsTest extends BaseTest {
 
@@ -22,9 +23,13 @@ public class AlertsTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         alertsPage = new AlertsPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ALERTS_FRAME_WINDOWS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 14, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, ALERTS_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)

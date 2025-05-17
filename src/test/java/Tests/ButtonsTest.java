@@ -11,7 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.BUTTONS_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class ButtonsTest extends BaseTest {
 
@@ -21,9 +22,14 @@ public class ButtonsTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         buttonsPage = new ButtonsPage();
         actions = new Actions(driver);
-        driver.navigate().to(HOMEPAGEURL);
+
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 5, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, BUTTONS_PAGE_URL), "Tested page is not reached!");
     }
 
     private void performAction(Actions action, WebElement button, WebElement message) {

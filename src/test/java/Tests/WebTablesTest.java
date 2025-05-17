@@ -10,7 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.WEB_TABLES_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class WebTablesTest extends BaseTest {
 
@@ -21,9 +22,12 @@ public class WebTablesTest extends BaseTest {
         webTablesPage = new WebTablesPage();
         registrationFormPage = new RegistrationFormPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 4, 1));
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, WEB_TABLES_PAGE_URL), "Tested page is not reached!");
     }
 
     private void fillOutRegistrationForm(String firstName, String lastName, String email, String age, String salary, String department) {

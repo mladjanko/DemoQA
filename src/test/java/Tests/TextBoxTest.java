@@ -10,9 +10,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.TEXT_BOX_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class TextBoxTest extends BaseTest {
+
+    private static final int VALID_DATA_ROW = 0;
+    private static final int INVALID_EMAIL_ROW = 1;
 
     @BeforeMethod
     public void pageSetUp() {
@@ -20,9 +24,13 @@ public class TextBoxTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         textBoxPage = new TextBoxPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 1, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, TEXT_BOX_PAGE_URL), "Tested page is not reached!");
     }
 
     private void inputTextField(WebElement field, String value) {
@@ -51,7 +59,7 @@ public class TextBoxTest extends BaseTest {
     public void testWithValidData() {
         WebElement submitButton = textBoxPage.submitButton;
         WebElement outputTextBox = textBoxPage.outputTextBox;
-        String[] testData = getTestData(0); // Using row 0 for valid data
+        String[] testData = getTestData(VALID_DATA_ROW); // Using row 0 for valid data
         String userName = testData[0];
         String userEmail = testData[1];
         String currentAddress = testData[2];
@@ -62,14 +70,18 @@ public class TextBoxTest extends BaseTest {
 
         // Verify that the correct output is displayed
         waitUntilVisibilityOf(outputTextBox);
-        Assert.assertEquals(outputTextBox.getText(), "Name:" + userName + "\nEmail:" + userEmail + "\nCurrent Address :" + currentAddress + "\nPermananet Address :" + permanentAddress);
+        String outputTextBoxText = outputTextBox.getText();
+        Assert.assertTrue(outputTextBoxText.contains("Name:" + userName), "Name not found in output.");
+        Assert.assertTrue(outputTextBoxText.contains("Email:" + userEmail), "Email not found in output.");
+        Assert.assertTrue(outputTextBoxText.contains("Current Address :" + currentAddress), "Current Address not found.");
+        Assert.assertTrue(outputTextBoxText.contains("Permanent Address :" + permanentAddress), "Permanent Address not found.");
     }
 
     @Test(priority = 20)
     public void testWithInvalidEmail() {
         WebElement userEmailField = textBoxPage.userEmailField;
         WebElement submitButton = textBoxPage.submitButton;
-        String[] testData = getTestData(1); // Using row 1 for invalid email
+        String[] testData = getTestData(INVALID_EMAIL_ROW); // Using row 1 for invalid email
         String userName = testData[0];
         String userEmail = testData[1];
         String currentAddress = testData[2];
@@ -86,5 +98,17 @@ public class TextBoxTest extends BaseTest {
         // Verify the class after change
         String actualClassValueAfterChange = userEmailField.getDomAttribute("class");
         Assert.assertEquals(actualClassValueAfterChange, expectedClassValue, "The class did not change to the expected one.");
+    }
+
+    @Test(priority = 30)
+    public void testWithEmptyFields() {
+        WebElement submitButton = textBoxPage.submitButton;
+        WebElement outputTextBox = textBoxPage.outputTextBox;
+        fillOutForm("", "", "", "");
+        submitButton.click();
+
+        //Test for blank fields / edge cases
+        String outputTextBoxText = outputTextBox.getText();
+        Assert.assertTrue(outputTextBoxText.isEmpty(), "Output should not be visible for empty input.");
     }
 }

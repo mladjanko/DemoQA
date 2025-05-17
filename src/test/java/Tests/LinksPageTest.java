@@ -12,7 +12,8 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.LINKS_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class LinksPageTest extends BaseTest {
 
@@ -22,9 +23,13 @@ public class LinksPageTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         linksPage = new LinksPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 6, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, LINKS_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)
@@ -35,7 +40,7 @@ public class LinksPageTest extends BaseTest {
         ArrayList<String> browserTabList = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(browserTabList.get(1));
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, HOMEPAGEURL);
+        Assert.assertEquals(currentUrl, HOME_PAGE_URL);
     }
 
     @Test(priority = 20)
@@ -46,7 +51,7 @@ public class LinksPageTest extends BaseTest {
         ArrayList<String> browserTabList = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(browserTabList.get(1));
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, HOMEPAGEURL);
+        Assert.assertEquals(currentUrl, HOME_PAGE_URL);
     }
 
     @Test(priority = 30)

@@ -10,7 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static Helpers.HomepageCards.ELEMENTS;
-import static Helpers.URLs.HOMEPAGEURL;
+import static Helpers.URLs.BROKEN_LINKS_IMAGES_PAGE_URL;
+import static Helpers.URLs.HOME_PAGE_URL;
 
 public class BrokenLinksImagesTest extends BaseTest {
 
@@ -20,9 +21,13 @@ public class BrokenLinksImagesTest extends BaseTest {
         leftsidemenuPage = new LeftsidemenuPage();
         brokenLinksImagesPage = new BrokenLinksImagesPage();
 
-        driver.navigate().to(HOMEPAGEURL);
+        driver.navigate().to(HOME_PAGE_URL);
         homepagePage.clickOnCard(ELEMENTS);
         leftsidemenuPage.clickOnLeftMenuItem(excelReader.getStringData("Left Side Menu", 7, 1));
+
+        String currentURL = driver.getCurrentUrl();
+        assert currentURL != null;
+        Assert.assertTrue(testedPageIsReached(currentURL, BROKEN_LINKS_IMAGES_PAGE_URL), "Tested page is not reached!");
     }
 
     @Test(priority = 10)
@@ -36,7 +41,7 @@ public class BrokenLinksImagesTest extends BaseTest {
     public void assertBrokenImage() {
         WebElement brokenImage = brokenLinksImagesPage.brokenImage;
         scrollToElement(brokenImage);
-        Assert.assertFalse(brokenImage.isDisplayed());
+        Assert.assertTrue(brokenImage.isDisplayed());
     }
 
     @Test(priority = 30)
@@ -47,7 +52,7 @@ public class BrokenLinksImagesTest extends BaseTest {
         validLink.click();
         String currentUrlAfterClick = driver.getCurrentUrl();
         Assert.assertNotEquals(currentUrlBeforeClick, currentUrlAfterClick);
-        Assert.assertEquals(currentUrlAfterClick, HOMEPAGEURL);
+        Assert.assertEquals(currentUrlAfterClick, HOME_PAGE_URL);
     }
 
     @Test(priority = 40)
