@@ -51,6 +51,7 @@ public class BaseTest {
     public LargeModalPage largeModalPage;
     public SmallModalPage smallModalPage;
     public AccordionPage accordionPage;
+    public AutoCompletePage autoCompletePage;
 
     @BeforeClass
     public void setUp() throws IOException {

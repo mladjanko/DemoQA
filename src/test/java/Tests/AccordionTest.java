@@ -44,7 +44,7 @@ public class AccordionTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(priority = 10)
     public void testAccordionCardsCanToggle() {
         List<WebElement> cardHeaderList = accordionPage.cardHeaderList;
         List<WebElement> cardBodyList = accordionPage.cardBodyList;
