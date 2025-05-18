@@ -15,14 +15,13 @@ public class AutoCompletePage extends BaseTest {
     @FindBy(id = "autoCompleteMultipleInput")
     public WebElement autoCompleteMultipleInput;
 
-//    @FindBy(css = "div.auto-complete__menu div")
-//    public List<WebElement> suggestionList;
-
-    @FindBy(className = "auto-complete__menu")
-    public List<WebElement> suggestionList;
-
     @FindBy(id = "autoCompleteSingleContainer")
     public WebElement autoCompleteSingleInput;
+
+    //    @FindBy(css = "div.auto-complete__menu div")
+    //    public List<WebElement> suggestionList;
+    @FindBy(className = "auto-complete__menu")
+    public List<WebElement> suggestionList;
 
     //---------------------------
 
