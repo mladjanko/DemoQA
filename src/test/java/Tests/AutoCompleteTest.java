@@ -38,13 +38,74 @@ public class AutoCompleteTest extends BaseTest {
     @Test(priority = 10)
     public void testSuggestionsAppear() {
         WebElement autoCompleteMultipleInput = autoCompletePage.autoCompleteMultipleInput;
-        autoCompletePage.enterText(autoCompleteMultipleInput, "q");
+        autoCompletePage.enterText(autoCompleteMultipleInput, "a");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfAllElements(autoCompletePage.getSuggestions()));
 
         List<WebElement> suggestions = autoCompletePage.getSuggestions();
         Assert.assertFalse(suggestions.isEmpty(), "No suggestions appeared after typing input.");
-//        System.out.println(suggestions.size());
     }
+
+    @Test(priority = 20)
+    public void testNoSuggestionsAppear() {
+        WebElement autoCompleteMultipleInput = autoCompletePage.autoCompleteMultipleInput;
+        autoCompletePage.enterText(autoCompleteMultipleInput, "zz");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        try {
+            wait.until(ExpectedConditions.visibilityOfAllElements(autoCompletePage.getSuggestions()));
+        } catch (Exception ignored) {
+            // No suggestions appeared, which is expected
+        }
+        List<WebElement> suggestions = autoCompletePage.getSuggestions();
+        Assert.assertTrue(suggestions.isEmpty(), "Suggestions appeared after typing input.");
+    }
+
+    @Test(priority = 30)
+    public void testColorsAreInputted() {
+        WebElement autoCompleteMultipleInput = autoCompletePage.autoCompleteMultipleInput;
+
+        // Input 3 colors
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "red");
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "blue");
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "green");
+
+        // Get the list of colors that were inputted
+        List<WebElement> selectedColors = autoCompletePage.getSelectedColors();
+
+        // Assert that exactly 3 colors were inputted
+        Assert.assertEquals(selectedColors.size(), 3, "Number of inputted colors is not equal to 3.");
+
+        System.out.println("Selected colors:");
+        for (WebElement color : selectedColors) {
+            System.out.println("- " + color.getText());
+        }
+    }
+
+    @Test(priority = 40)
+    public void testRemoveColor() {
+        WebElement autoCompleteMultipleInput = autoCompletePage.autoCompleteMultipleInput;
+
+        // Input 3 colors
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "red");
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "blue");
+        autoCompletePage.enterTextAndSelect(autoCompleteMultipleInput, "green");
+
+        // Get the list of colors that were inputted
+        List<WebElement> selectedColors = autoCompletePage.getSelectedColors();
+
+        // Assert that exactly 3 colors were inputted
+        Assert.assertEquals(selectedColors.size(), 3, "Expected 3 colors before removal.");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(autoCompletePage.getSelectedColors()));
+        // Remove selected color
+        autoCompletePage.removeSelectedColor(0); // index of the color to remove
+
+        // Get the updated list of selected colors and assert that exactly 2 colors remain
+        List<WebElement> updatedColors = autoCompletePage.getSelectedColors();
+        Assert.assertEquals(updatedColors.size(), 2, "Expected 2 colors after removal.");
+    }
+
 }
